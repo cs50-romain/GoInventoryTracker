@@ -6,10 +6,36 @@ import (
 	//"log"
 	"os"
 	"strings"
+
+	"github.com/cs50-romain/GoInventoryTracker/sale"
 )
 
+var sale_stack = sale.Init()
+
 func saleFunctions(args []string) {
-	fmt.Println(args)
+	if len(args) == 1 {
+		fmt.Println("Need more arguments. Type help to view a list of commands.")
+	} else if len(args) == 2 {
+		sale_cmd := args[1]
+		if sale_cmd == "push" {
+			fmt.Println("Not enough arguments.")
+		} else if sale_cmd == "peek" {
+			fmt.Println(sale_stack.Peek())
+		} else if sale_cmd == "display" {
+			sale_stack.Display()
+		} else if sale_cmd == "pop" {
+			sale_stack.Pop()
+		}
+	} else if len(args) == 3 {
+		sale_cmd := args[1]
+		item := args[2]
+
+		if sale_cmd == "push" {
+			sale_stack.Push(item, 10)
+		} else {
+			fmt.Println("Invalid command. Type help to view a list of commands.")
+		}
+	}
 }
 
 func productFunctions(args []string) {
