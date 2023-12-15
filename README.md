@@ -31,7 +31,7 @@ GoInventoryTracker is a command-line tool for managing inventory in retail store
 ## Usage
 
 ```bash
-$ ./go-inventory_tracker.py
+$ ./go-inventory_tracker.go
 > sale push Laptop
 > product add Electronics Smartphone
 > stock add Smartphone 50
