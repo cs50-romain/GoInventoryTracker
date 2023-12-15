@@ -2,8 +2,6 @@ package sale
 
 import (
 	"fmt"
-
-	"golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 type ItemNode struct {
@@ -14,6 +12,10 @@ type ItemNode struct {
 
 type Stack struct {
 	head	*ItemNode
+}
+
+func Init() *Stack {
+	return &Stack{nil}
 }
 
 func (s *Stack) Push(item string, price int) {
@@ -33,14 +35,23 @@ func (s *Stack) Pop() *ItemNode {
 		return nil
 	} else {
 		curr := s.head
+		prev := curr
 
-		for curr.next != nil {
-			curr = curr.next
+		if curr.next == nil {
+			s.head = nil
+			return curr 
 		}
 
-		last_item := curr.next
-		curr.next = nil
-		return last_item
+		for curr.next != nil {
+			prev = curr
+			curr = curr.next
+			
+		}
+
+		fmt.Println(curr, prev)
+
+		prev.next = nil
+		return curr 
 	}
 }
 
@@ -49,7 +60,7 @@ func (s *Stack) Peek() *ItemNode {
 		return nil
 	} else {
 		curr := s.head
-		for curr != nil {
+		for curr.next != nil {
 			curr = curr.next
 		}
 		return curr
@@ -60,7 +71,7 @@ func (s *Stack) Display() {
 	curr := s.head
 
 	for curr != nil {
-		fmt.Printf("Item: %s, Sale: %d", curr.Name, curr.Price)
+		fmt.Printf("Item: %s, Sale: %d\n", curr.Name, curr.Price)
 		curr = curr.next
 	}
 }
