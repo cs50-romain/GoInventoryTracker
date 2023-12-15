@@ -5,7 +5,7 @@ GoInventoryTracker is a command-line tool for managing inventory in retail store
 ## Features
 
 1. **Stack for Items on Sale:**
-   - `sale push <item>`: Add an item to the list of items on sale.
+   - `sale push <items>`: Add an item to the list of items on sale.
    - `sale pop`: Remove the last item added to the sale list.
    - `sale peek`: View the current item on sale.
    - `sale display`: Show the list of items currently on sale.
