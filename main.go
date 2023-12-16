@@ -3,14 +3,18 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"strconv"
+
 	//"log"
 	"os"
 	"strings"
 
 	"github.com/cs50-romain/GoInventoryTracker/sale"
+	"github.com/cs50-romain/GoInventoryTracker/stock"
 )
 
 var sale_stack = sale.Init()
+var stocks = stock.Init()
 
 func saleFunctions(args []string) {
 	if len(args) == 1 {
@@ -43,7 +47,46 @@ func productFunctions(args []string) {
 }
 
 func stockFunctions(args []string) {
-	fmt.Println(args)
+	if len(args) == 1 {
+		fmt.Println("Need more arguments. Type help to view a list of commands.")
+	} else if len(args) == 2 {
+		stock_cmd := args[1]
+		if stock_cmd != "display" {
+			fmt.Println("Not enough arguments.")
+		} else {
+			stocks.Display()
+		}
+	} else if len(args) >= 3 {
+		stock_cmd := args[1]
+		item := args[2]
+
+		if stock_cmd == "add" {
+			if len(args) < 3 {
+				fmt.Println("Need more arguments. Type help to view a list of commands.")
+			} else if len(args) == 3 {
+				stocks.Add(item, 1)
+			} else if len(args) == 4 {
+				quantity, _ := strconv.Atoi(args[3])
+				stocks.Add(item, quantity)
+			}
+		} else if stock_cmd == "remove" {
+			if len(args) < 3 {
+				fmt.Println("Need more arguments. Type help to view a list of commands.")
+			} else if len(args) == 3 {
+				stocks.Remove(item, 1)
+			} else if len(args) == 4 {
+				quantity, _ := strconv.Atoi(args[3])
+				ok := stocks.Remove(item, quantity)
+				if !ok {
+					fmt.Println("[INFO] Item does not exist OR not enough inventory.")
+				}
+			}
+		} else if stock_cmd == "check" {
+			fmt.Println(stocks.Check(item))
+		} else {
+			fmt.Println("Invalid command. Type help to view a list of commands.")
+		}
+	}
 }
 
 func reportFunctions(args []string) {
